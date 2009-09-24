@@ -1,3 +1,19 @@
 = Amazon Tags
 
-Description goes here
+== Install
+
+1. Change directory to $RADIANT_ROOT/vendor/extension
+   $RADIANT_ROOT is the directory of your project directory of radiant.
+
+2. Get extensions.
+
+   git clone git://github.com/vividtone/radiant-amazon-tags.git
+
+3. Set your AWS(Amazon Web Services) information at the tail of 
+   $RADIANT_ROOT/config/environment.rb
+
+   [example]
+   Radiant::Config["amazon_tags.aws_access_key_id"] = 'your access key id'
+   Radiant::Config["amazon_tags.aws_secret_key"] = 'your secret key'
+   Radiant::Config["amazon_tags.associate_tag"] = 'your associate tag'
+   Radiant::Config["amazon_tags.country"] = 'jp' # country
