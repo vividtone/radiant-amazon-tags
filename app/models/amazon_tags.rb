@@ -18,6 +18,18 @@ module AmazonTags
     end
   end
 
+  desc %{
+    Search Amazon items by ASIN(Amazon Standard Identification Number) or keywords and cycles through each of the found items.
+
+    "asin" and "keywords" attributes are cannot be used at the same time.
+
+    *Usage:*
+
+    <pre><code><r:amazon:each [asin="ASIN"] [keywords="keyword1 keyword2 ..."] [search_index="All|Books|Music|..."]
+      ...
+    </r:amazon:each>
+    </code></pre>
+  }
   tag "amazon:each" do |tag|
     if tag.double? then
       aws_response = find_amazon_items(tag)
@@ -32,6 +44,16 @@ module AmazonTags
     end
   end
 
+  desc %{
+    Search Amazon items by ASIN(Amazon Standard Identification Number) or keywords and returns the first item in the search result. Takes the same options as @<r:amazon:each>@.
+
+    *Usage:*
+
+    <pre><code><r:amazon:first [asin="ASIN"] [keywords="keyword1 keyword2 ..."] [search_index="All|Books|Music|..."]
+      ...
+    </r:amazon:first>
+    </code></pre>
+  }
   tag "amazon:first" do |tag|
     if tag.double? then
       aws_response = find_amazon_items(tag)
@@ -43,41 +65,73 @@ module AmazonTags
     end
   end
 
+  desc %{
+    Renders the title of the item. 
+  }
   tag "amazon:item_title" do |tag|
     item = tag.locals.item
     item ? item.get("itemattributes/title").to_s : ""
   end
 
+  desc %{
+    Renders the artist of the item. Valid for "Music" items.
+  }
   tag "amazon:artist" do |tag|
     item = tag.locals.item
     item ? item.get("itemattributes/artist").to_s : ""
   end
 
 
+  desc %{
+    Renders the total number of items.
+  }
   tag "amazon:count" do |tag|
     items = tag.locals.items
     items ? items.count.to_s : ""
   end
 
+  desc %{
+    Renders the URL for detail page.
+  }
   tag "amazon:detail_page_url" do |tag|
     item = tag.locals.item
     item ? item.get("detailpageurl").to_s : ""
   end
 
+  desc %{
+    Renders the lowest new price for the item.
+  }
   tag "amazon:lowest_new_price" do |tag|
     item = tag.locals.item
     item ? item.get("offersummary/lowestnewprice/formattedprice").to_s : ""
   end
 
+  desc %{
+    Renders the lowest used price for the item.
+  }
   tag "amazon:lowest_used_price" do |tag|
     item = tag.locals.item
     item ? item.get("offersummary/lowestusedprice/formattedprice").to_s : ""
   end
 
+  desc %{
+    Renders the image URL for the item. Default size for image is "medium".
+
+    *Usage:*
+
+    <pre><code><r:amazon:image_url [size="small|medium|large"] /></code></pre>
+  }
   tag "amazon:image_url" do |tag|
     get_image_url(tag)
   end
 
+  desc %{
+    Renders the inline image tag with a link to the item.
+
+    *Usage:*
+
+    <pre><code><r:amazon:image [size="small|medium|large"] /></code></pre>
+  }
   tag "amazon:image" do |tag|
     item = tag.locals.item
     return if item == nil
@@ -86,6 +140,13 @@ module AmazonTags
     return "<a href=\"#{link}\"><img src=\"#{image_url}\"></a>"
   end
 
+  desc %{
+    Renders the title of the item with a link to detail page.
+
+    *Usage:*
+
+    <pre><code><r:amazon:item_link /></code></pre>
+  }
   tag "amazon:item_link" do |tag|
     item = tag.locals.item
     return "" if item == nil
