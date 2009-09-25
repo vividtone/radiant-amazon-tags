@@ -1,5 +1,9 @@
 = Amazon Tags
 
+== Requirements
+
+* "amazon-ecs" gem package (gem install amazon-ecs)
+
 == Install
 
 1. Change directory to $RADIANT_ROOT/vendor/extension
