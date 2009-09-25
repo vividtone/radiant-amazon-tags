@@ -93,7 +93,13 @@ describe 'AmazonTags' do
   describe '<r:amazon:image>' do 
     it "should render a image with a link" do
       tag = '<r:amazon:first asin="4798021377"><r:image /></r:amazon:first>'
-      expected = %r(<a href="http://www.amazon.co.jp.*4798021377.*"><img src="http://ecx.images-amazon.com/images/I/41vBIvHrjfL._SL160_.jpg"></a>)
+      expected = %r(<a href="http://www.amazon.co.jp.*4798021377.*"><img src="http://ecx.images-amazon.com/images/I/41vBIvHrjfL._SL160_.jpg" /></a>)
+      pages(:home).should render(tag).matching(expected)
+    end
+
+    it "should have extra attributes in image tag" do
+      tag = '<r:amazon:first asin="4798021377"><r:image align="right" /></r:amazon:first>'
+      expected = %r(<a href="http://www.amazon.co.jp.*4798021377.*"><img src="http://ecx.images-amazon.com/images/I/41vBIvHrjfL._SL160_.jpg" align="right" /></a>)
       pages(:home).should render(tag).matching(expected)
     end
   end

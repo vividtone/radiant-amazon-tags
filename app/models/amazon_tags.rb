@@ -137,7 +137,8 @@ module AmazonTags
     return if item == nil
     image_url = get_image_url(tag)
     link = item.get("detailpageurl")
-    return "<a href=\"#{link}\"><img src=\"#{image_url}\"></a>"
+    attr = tag.attr.inject([]) {|v, item| v << %(#{item[0]}="#{item[1]}" )}
+    return "<a href=\"#{link}\"><img src=\"#{image_url}\" #{attr}/></a>"
   end
 
   desc %{
@@ -165,12 +166,12 @@ module AmazonTags
         options[:country] = Radiant::Config["amazon_tags.country"]
       end
 
-      if asin = tag.attr['asin'] then
+      if asin = tag.attr.delete('asin') then
         return Amazon::Ecs.item_lookup(asin,
                                        {:Condition => "All",
                                         :ResponseGroup => "Medium"})
-      elsif keywords = tag.attr['keywords'] then
-        search_index = tag.attr['search_index'] || 'Books'
+      elsif keywords = tag.attr.delete('keywords') then
+        search_index = tag.attr.delete('search_index') || 'Books'
         return Amazon::Ecs.item_search(keywords,
                                        {:Condition => "All",
                                         :search_index => search_index,
@@ -182,7 +183,7 @@ module AmazonTags
 
   def get_image_url(tag)
     item = tag.locals.item
-    size = tag.attr['size'] || 'medium'
+    size = tag.attr.delete('size') || 'medium'
     if size =~ /^(small|medium|large)$/ then
       return item ? item.get("#{size}image/url").to_s : ""
     else
