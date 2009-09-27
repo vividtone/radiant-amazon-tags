@@ -136,6 +136,10 @@ module AmazonTags
     item = tag.locals.item
     return if item == nil
     image_url = get_image_url(tag)
+    altimage = tag.attr.delete("altimage")
+    if image_url.empty? then
+      image_url = altimage
+    end
     link = item.get("detailpageurl")
     attr = tag.attr.inject([]) {|v, item| v << %(#{item[0]}="#{item[1]}" )}
     return "<a href=\"#{link}\"><img src=\"#{image_url}\" #{attr}/></a>"

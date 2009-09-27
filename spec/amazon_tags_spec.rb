@@ -102,6 +102,12 @@ describe 'AmazonTags' do
       expected = %r(<a href="http://www.amazon.co.jp.*4798021377.*"><img src="http://ecx.images-amazon.com/images/I/41vBIvHrjfL._SL160_.jpg" align="right" /></a>)
       pages(:home).should render(tag).matching(expected)
     end
+
+    it "should use altimage when image not found" do
+      tag = '<r:amazon:first asin="B000ANHB9A"><r:image altimage="http://example.com/foo.img" /></r:amazon:first>'
+      expected = %r(<a href="http://www.amazon.co.jp.*B000ANHB9A.*"><img src="http://example.com/foo.img" /></a>)
+      pages(:home).should render(tag).matching(expected)
+    end
   end
 
   describe '<r:amazon:item_link>' do
