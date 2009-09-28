@@ -160,6 +160,20 @@ module AmazonTags
     return "<a href=\"#{link}\">#{title}</a>"
   end
 
+  desc %{
+    Retrieve the value of specified path from the current item and
+    renders the value.
+
+    *Usage:*
+
+    <pre><code><r:amazon:value path="/path/to/the/value" /></code></pre>
+  }
+  tag "amazon:value" do |tag|
+    item = tag.locals.item
+    path = tag.attr["path"]
+    (item && !path.empty?) ? item.get(path).to_s : ""
+  end
+
   private
 
   def find_amazon_items(tag)

@@ -126,4 +126,12 @@ describe 'AmazonTags' do
     end
   end
 
+  describe '<r:amazon:value>' do
+    it "should get item's title." do
+      tag = '<r:amazon:first asin="4798021377"><r:value path="itemattributes/title" /></r:amazon:first>'
+      expected = %r(入門Redmine Linux/Windows対応)
+      pages(:home).should render(tag).matching(expected)
+    end
+  end
+
 end
