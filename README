@@ -11,7 +11,7 @@
 
 2. Get extensions.
 
-   git clone git://github.com/vividtone/radiant-amazon-tags.git
+   git clone git://github.com/vividtone/radiant-amazon-tags.git amazon_tags
 
 3. Set your AWS(Amazon Web Services) information at the tail of 
    $RADIANT_ROOT/config/environment.rb
