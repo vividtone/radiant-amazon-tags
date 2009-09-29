@@ -99,6 +99,30 @@ module AmazonTags
   end
 
   desc %{
+    Renders the All Customer Reviews URL
+  }
+  tag "amazon:customer_reviews_url" do |tag|
+    item = tag.locals.item
+    item ? item.get("itemlinks/itemlink[3]/url").to_s : ""
+  end
+
+  desc %{
+    Renders the All Offers URL
+  }
+  tag "amazon:offers_url" do |tag|
+    item = tag.locals.item
+    item ? item.get("itemlinks/itemlink[4]/url").to_s : ""
+  end
+
+  desc %{
+    Renders the list price for the item.
+  }
+  tag "amazon:list_price" do |tag|
+    item = tag.locals.item
+    item ? item.get("itemattributes/listprice/formattedprice").to_s : ""
+  end
+
+  desc %{
     Renders the lowest new price for the item.
   }
   tag "amazon:lowest_new_price" do |tag|

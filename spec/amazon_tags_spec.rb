@@ -54,6 +54,22 @@ describe 'AmazonTags' do
     end
   end
 
+  describe '<r:amazon:customer_reviews_url>' do
+    it "should render the All Customer Reviews URL" do
+      tag = '<r:amazon:first keywords="perfume game" search_index="Music"><r:customer_reviews_url /></r:amazon:first>'
+      expected = %r(http://www.amazon.co.jp/review/product/B00132S3SK)
+      pages(:home).should render(tag).matching(expected)
+    end
+  end
+  
+  describe '<r:amazon:offers_url>' do
+    it "should render the All Offers URL" do
+      tag = '<r:amazon:first keywords="perfume game" search_index="Music"><r:offers_url /></r:amazon:first>'
+      expected = %r(http://www.amazon.co.jp/gp/offer-listing/B00132S3SK)
+      pages(:home).should render(tag).matching(expected)
+    end
+  end
+
   describe '<r:amazon:lowest_new_price>' do
     it "should render the lowest_new_prise" do
       tag = '<r:amazon:first keywords="perfume game" search_index="Music"><r:lowest_new_price /></r:amazon:first>'
@@ -127,9 +143,17 @@ describe 'AmazonTags' do
   end
 
   describe '<r:amazon:value>' do
-    it "should get item's title." do
+    it "should get value by xpath" do
       tag = '<r:amazon:first asin="4798021377"><r:value path="itemattributes/title" /></r:amazon:first>'
       expected = %r(入門Redmine Linux/Windows対応)
+      pages(:home).should render(tag).matching(expected)
+    end
+  end
+
+  describe '<r:amazon:list_price>' do 
+    it "should get items list price" do
+      tag = '<r:amazon:each asin="4798021377"><r:list_price /></r:amazon:each>'
+      expected = /2,100/
       pages(:home).should render(tag).matching(expected)
     end
   end
